@@ -1,6 +1,7 @@
 package jsonronin
 
 import (
+	"encoding/json"
 	"reflect"
 )
 
@@ -15,6 +16,12 @@ const (
 
 type Ronin struct {
 	reflect.Value
+}
+
+func Unmarshal(s string) Ronin {
+	var v interface{}
+	json.Unmarshal([]byte(s), &v)
+	return New(v)
 }
 
 func New(j interface{}) Ronin {
