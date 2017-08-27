@@ -25,9 +25,9 @@ var JsonStr = `{
 
 
 #2 get string 
-name := jl.ObjectItem("name").GetString()
+name := jr.ObjectItem("name").GetString()
 #or
-name := jl.ObjectItem("name").String()
+name := jr.ObjectItem("name").String()
 
 #3 get number
 age := jr.ObjectItem("age").GetNumber()
