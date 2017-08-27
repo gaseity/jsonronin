@@ -19,9 +19,10 @@
 
 	var v interface{}
 	json.Unmarshal([]byte(JsonStr), &v)
-
-	#json ronin
 	jr := jsonronin.New(v)
+
+	#or
+	jr :=jsonronin.Unmarshal(JsonStr)
 
 #2 get string 
 
