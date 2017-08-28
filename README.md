@@ -9,12 +9,11 @@
 			"y":"bbb"
 		},
 		"array":[
-			"a",
-			"b",
-			"c"
+			100,
+			201,
+			"TOP"
 		]
 	}`
-
 #1 init 
 
 	var v interface{}
@@ -26,85 +25,32 @@
 
 #2 get string 
 
-	name := jr.ObjectItem("name").String()
+	name := jr.Get("name").String()
 	
 #3 get number
 
-	age := jr.ObjectItem("age").Number()
+	age := jr.Get("age").Number()
 	#or
-	age := jr.ObjectItem("age").Float()
+	age := jr.Get("age").Float()
 	
 #4 get bool
 
-	human := jr.ObjectItem("human").Bool()
+	human := jr.Get("human").Bool()
 	
-#4 get object
+#4 get object item
 
-	obj := jr.ObjectItem("object")
-	obj := jr.ObjectItem("array")
+	obj := jr.Get("object")
+	itemx := jr.Get("object").Get("x").Number()
+	itemx := jr.Get("object").Get("y").String()
 	
 #5 get array item
 
-	item := obj.ArrayItem(1).String()
-	item := obj.ArrayItem(1).Number()
-	item := obj.ArrayItem(1).Bool()
-	
-	#array[object,object....]
-	subobj := obj.ArrayItem(1)
+	list  := jr.Get("array")
+
+	item0 := jr.Get("array").Get("0").String()
+	item1 := jr.Get("array").Get("1").Number()
+	item2 := jr.Get("array").Get("2").String()
 	
 #end
 
 #example
-	
-	package main
-	
-	import (
-		"fmt"
-		"encoding/json"
-		"github.com/gaseity/jsonronin"
-	)
-	
-	var JsonStr = `{
-		"name":"ronin",
-		"age":24,
-		"human":true,
-		"object":{
-			"x":1,
-			"y":"bbb"
-		},
-		"array":[
-			"a",
-			"b",
-			"c"
-		]
-	}`
-	
-	func main() {
-		jr :=jsonronin.Unmarshal(JsonStr)
-	
-		name = jr.ObjectItem("name").String()
-		fmt.Println(name)
-		
-		age := jr.ObjectItem("age").Number()
-		fmt.Println(age)
-	
-		human  = jr.ObjectItem("human").Bool()
-		fmt.Println(human)
-		
-		oobj := jr.ObjectItem("object")
-		fmt.Println(oobj)
-		aobj := jr.ObjectItem("array")
-		fmt.Println(aobj)
-		
-		item  = aobj.ArrayItem(1).String()
-		fmt.Println(item)
-	}
-
-#ouptut
-
-	ronin
-	24
-	true
-	<map[string]interface {} Value>
-	<[]interface {} Value>
-	b

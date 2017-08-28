@@ -3,6 +3,7 @@ package jsonronin
 
 import (
 	"testing"
+	"fmt"
 )
 
 var testJSON = `{
@@ -18,11 +19,11 @@ var testJSON = `{
 func TestType(t *testing.T) {
 	jr := Unmarshal(testJSON)
 
-	o := jr.ObjectItem("object")
-	a := jr.ObjectItem("array")
-	s := jr.ObjectItem("name")
-	n := jr.ObjectItem("age")
-	b := jr.ObjectItem("good")
+	o := jr.Get("object")
+	a := jr.Get("array")
+	s := jr.Get("name")
+	n := jr.Get("age")
+	b := jr.Get("good")
 
 	if o.Type() != Object {
 		t.Error("object.Type() != object")
@@ -42,47 +43,60 @@ func TestType(t *testing.T) {
 }
 
 func TestObjectItem(t *testing.T) {
-	jr := Unmarshal(testJSON)
+	jr := Unmarshal(`{"object":{"what is a this?":"an apple"}}`)
 
-	o := jr.ObjectItem("object")
+	o := jr.Get("object")
 	if o.Type() != Object {
-		t.Error("ObjectItem() != object")
+		t.Error("Object() != object")
+	}
+	ow := jr.Get("object").Get("what is a this?").String()
+	if ow != "an apple" {
+		t.Error("Object(item) != \"an apple\"")
 	}
 }
-func TestArrayItem(t *testing.T) {
-	jr := Unmarshal(testJSON)
+func TestArray(t *testing.T) {
+	jr := Unmarshal(`{"array":[0,1,"2"]}`)
 
-	a := jr.ObjectItem("array")
-	i := a.ArrayItem(1)
-	if i.Number() != 2 {
-		t.Error("ObjectItem(1) != 2")
+	a := jr.Get("array").Get("0").Number()
+	if a != 0 {
+		t.Error("Array(0) != 1")
+	}
+	b := jr.Get("array").Get("1").Number()
+	if b != 1 {
+		t.Error("Array(1) != 2")
+	}
+	c := jr.Get("array").Get("2").String()
+	if c != "2" {
+		t.Error("Array(2) != \"2\"")
 	}
 }
 func TestString(t *testing.T) {
-	jr := Unmarshal(testJSON)
+	jr := Unmarshal(`{"name":"ronin"}`)
 
-	name := jr.ObjectItem("name").String()
+	name := jr.Get("name").String()
 	if name != "ronin" {
 		t.Error("String(name) != ronin")
 	}
+
 }
 func TestNumber(t *testing.T) {
-	jr := Unmarshal(testJSON)
+	jr := Unmarshal(`{"age":100}`)
 
-	age := jr.ObjectItem("age").Number()
+	age := jr.Get("age").Number()
 	if age != 100 {
 		t.Error("Number(age) != 100")
 	}
 }
 func TestBool(t *testing.T) {
-	jr := Unmarshal(testJSON)
+	jr := Unmarshal(`{"good":true, "bad":false}`)
 
-	bt := jr.ObjectItem("good").Bool()
+	bt := jr.Get("good").Bool()
 	if bt != true {
 		t.Error("Bool(good) != true")
 	}
-	bf := jr.ObjectItem("bad").Bool()
+	bf := jr.Get("bad").Bool()
 	if bf != false {
 		t.Error("Bool(bad) != true")
 	}
 }
+

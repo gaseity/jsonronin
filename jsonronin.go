@@ -1,6 +1,7 @@
 package jsonronin
 
 import (
+	"strconv"
 	"encoding/json"
 	"reflect"
 )
@@ -50,10 +51,16 @@ func (v Ronin) Type() int {
 	}	
 }
 
-func (v Ronin) ObjectItem(name string) Ronin {
-	if v.Kind() == reflect.Map {
+func (v Ronin) Get(k string) Ronin {
+	switch v.Kind() {
+
+	case reflect.Slice, reflect.Array:
+		i,_ := strconv.Atoi(k)
+		return Ronin{v.Index(i).Elem()}
+
+	case reflect.Map:
 		for _, key := range v.MapKeys() {
-			if(name == key.String()) {
+			if(k == key.String()) {
 				return Ronin{v.MapIndex(key).Elem()}
 			}
 		}	
@@ -61,12 +68,8 @@ func (v Ronin) ObjectItem(name string) Ronin {
 	return Ronin{}
 }
 
-func (v Ronin) ArrayItem(i int) Ronin {
-	switch v.Kind() {
-		case reflect.Slice, reflect.Array:
-			return Ronin{v.Index(i).Elem()}
-	}
-	return Ronin{}
+func (v Ronin) Interface() interface{} {
+	return v.Interface()	
 }
 
 func (v Ronin) Number() float64 {
