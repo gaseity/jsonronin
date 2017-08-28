@@ -26,20 +26,16 @@
 
 #2 get string 
 
-	name := jr.ObjectItem("name").GetString()
-	#or
 	name := jr.ObjectItem("name").String()
 	
 #3 get number
 
-	age := jr.ObjectItem("age").GetNumber()
+	age := jr.ObjectItem("age").Number()
 	#or
 	age := jr.ObjectItem("age").Float()
 	
 #4 get bool
 
-	human := jr.ObjectItem("human").GetBool()
-	#or
 	human := jr.ObjectItem("human").Bool()
 	
 #4 get object
@@ -49,9 +45,9 @@
 	
 #5 get array item
 
-	item := obj.ArrayItem(1).GetString()
-	item := obj.ArrayItem(1).GetNumber()
-	item := obj.ArrayItem(1).GetBool()
+	item := obj.ArrayItem(1).String()
+	item := obj.ArrayItem(1).Number()
+	item := obj.ArrayItem(1).Bool()
 	
 	#array[object,object....]
 	subobj := obj.ArrayItem(1)
@@ -84,22 +80,14 @@
 	}`
 	
 	func main() {
-		var v interface{}
-		json.Unmarshal([]byte(JsonStr), &v)
-		jr := jsonronin.New(v)
+		jr :=jsonronin.Unmarshal(JsonStr)
 	
-		name := jr.ObjectItem("name").GetString()
-		fmt.Println(name)
 		name = jr.ObjectItem("name").String()
 		fmt.Println(name)
 		
-		age := jr.ObjectItem("age").GetNumber()
+		age := jr.ObjectItem("age").Number()
 		fmt.Println(age)
-		age = jr.ObjectItem("age").Float()
-		fmt.Println(age)
-		
-		human := jr.ObjectItem("human").GetBool()
-		fmt.Println(human)
+	
 		human  = jr.ObjectItem("human").Bool()
 		fmt.Println(human)
 		
@@ -108,8 +96,6 @@
 		aobj := jr.ObjectItem("array")
 		fmt.Println(aobj)
 		
-		item := aobj.ArrayItem(0).GetString()
-		fmt.Println(item)
 		item  = aobj.ArrayItem(1).String()
 		fmt.Println(item)
 	}
@@ -117,12 +103,8 @@
 #ouptut
 
 	ronin
-	ronin
 	24
-	24
-	true
 	true
 	<map[string]interface {} Value>
 	<[]interface {} Value>
-	a
 	b
