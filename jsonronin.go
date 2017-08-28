@@ -69,23 +69,6 @@ func (v Ronin) ArrayItem(i int) Ronin {
 	return Ronin{}
 }
 
-func (v Ronin) GetString() string {
-	if v.Kind() == reflect.String {
-		return v.String()
-	}
-	return ""
-}
-
-func (v Ronin) GetNumber() float64 {
-	if v.Kind() == reflect.Float64 {
-		return v.Float()
-	}
-	return 0
-}
-
-func (v Ronin) GetBool() bool {
-	if v.Kind() == reflect.Bool {
-		return v.Bool()
-	}
-	return false
+func (v Ronin) Number() float64 {
+	return v.Float()
 }

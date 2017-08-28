@@ -2,7 +2,6 @@
 package jsonronin
 
 import (
-	"encoding/json"
 	"testing"
 )
 
@@ -16,14 +15,8 @@ var testJSON = `{
 	"items":["a","b","c"]
 }`
 
-func ready(j string) interface{} {
-	var v interface{}
-	json.Unmarshal([]byte(j), &v)
-	return v;
-}
-
 func TestType(t *testing.T) {
-	jr := New(ready(testJSON))
+	jr := Unmarshal(testJSON)
 
 	o := jr.ObjectItem("object")
 	a := jr.ObjectItem("array")
@@ -49,7 +42,7 @@ func TestType(t *testing.T) {
 }
 
 func TestObjectItem(t *testing.T) {
-	jr := New(ready(testJSON))
+	jr := Unmarshal(testJSON)
 
 	o := jr.ObjectItem("object")
 	if o.Type() != Object {
@@ -57,38 +50,38 @@ func TestObjectItem(t *testing.T) {
 	}
 }
 func TestArrayItem(t *testing.T) {
-	jr := New(ready(testJSON))
+	jr := Unmarshal(testJSON)
 
 	a := jr.ObjectItem("array")
 	i := a.ArrayItem(1)
-	if i.GetNumber() != 2 {
+	if i.Number() != 2 {
 		t.Error("ObjectItem(1) != 2")
 	}
 }
-func TestGetString(t *testing.T) {
-	jr := New(ready(testJSON))
+func TestString(t *testing.T) {
+	jr := Unmarshal(testJSON)
 
-	name := jr.ObjectItem("name").GetString()
+	name := jr.ObjectItem("name").String()
 	if name != "ronin" {
 		t.Error("String(name) != ronin")
 	}
 }
-func TestGetNumber(t *testing.T) {
-	jr := New(ready(testJSON))
+func TestNumber(t *testing.T) {
+	jr := Unmarshal(testJSON)
 
-	age := jr.ObjectItem("age").GetNumber()
+	age := jr.ObjectItem("age").Number()
 	if age != 100 {
 		t.Error("Number(age) != 100")
 	}
 }
-func TestGetBool(t *testing.T) {
-	jr := New(ready(testJSON))
+func TestBool(t *testing.T) {
+	jr := Unmarshal(testJSON)
 
-	bt := jr.ObjectItem("good").GetBool()
+	bt := jr.ObjectItem("good").Bool()
 	if bt != true {
 		t.Error("Bool(good) != true")
 	}
-	bf := jr.ObjectItem("bad").GetBool()
+	bf := jr.ObjectItem("bad").Bool()
 	if bf != false {
 		t.Error("Bool(bad) != true")
 	}
