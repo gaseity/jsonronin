@@ -51,6 +51,15 @@ func (v Ronin) Type() int {
 	}	
 }
 
+func (v Ronin) Pick(i int) Ronin {
+	switch v.Kind() {
+
+	case reflect.Slice, reflect.Array:
+		return Ronin{v.Index(i).Elem()}
+	}
+	return Ronin{}
+}
+
 func (v Ronin) Get(k string) Ronin {
 	switch v.Kind() {
 
